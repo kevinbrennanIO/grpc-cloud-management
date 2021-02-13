@@ -5,8 +5,8 @@ BSC (Honours) in Computing\
 Distributed Systems\
 Project 2020-21**
 
-Student No: x16149823@student.ncirl.ie\
-Student Name: Kevin Brennan
+**Student No:** x16149823@student.ncirl.ie\
+**Student Name:** Kevin Brennan
 
 ## Simulate Management of a Cloud Environment
 
