@@ -1,9 +1,9 @@
 # grpc-cloud-management
 
-National College of Ireland\
+**National College of Ireland\
 BSC (Honours) in Computing\
 Distributed Systems\
-Project 2020-21
+Project 2020-21**
 
 Student No: x16149823@student.ncirl.ie\
 Student Name: Kevin Brennan
