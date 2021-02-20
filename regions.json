@@ -1,0 +1,29 @@
+[
+  {
+    "displayName": "Central India",
+    "name": "centralindia",
+    "metadata": {
+      "latitude": "18.5822",
+      "longitude": "73.9197",
+      "regionType": "Physical"
+    }
+  },
+  {
+    "displayName": "Japan East",
+    "name": "japaneast",
+    "metadata": {
+        "latitude": "35.68",
+        "longitude": "139.77",
+      "regionType": "Physical"
+    }
+  },
+  {
+    "displayName": "UK West",
+    "name": "ukwest",
+    "metadata": {
+        "latitude": "53.427",
+        "longitude": "-3.084",
+      "regionType": "Physical"
+    }
+  }
+]
