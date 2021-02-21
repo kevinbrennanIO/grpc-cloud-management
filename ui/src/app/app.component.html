@@ -1,9 +1,75 @@
 <!-- <router-outlet></router-outlet> -->
-<div id="main">
-  <h1 class="sans-serif">{{ title }}</h1>
-  <hr>
-  <p>Create a new Virtual Machine</p>
-
-  <p>Choose Region</p>
-  <button>Select</button>
+<div class="main">
+  <div class="content">
+    <h1>{{ title }}</h1>
+  </div>
+  <div class="tabs">
+    <ul>
+      <li class="is-active"><a>Virtual Machines</a></li>
+    </ul>
+  </div>
+  <div class="content">
+    <p>Create a new virtual machine by following these steps</p>
+    <ol>
+      <li>Pick a region</li>
+      <li>Configure CPU specs</li>
+      <li>Select an image</li>
+      <li>Create</li>
+    </ol>
+    <div class="select is-primary">
+      <select>
+        <option value="" selected disabled hidden>Choose Region</option>
+        <option>Central India</option>
+        <option>Japan East</option>
+        <option>UK West</option>
+      </select>
+    </div>
+    <div class="select is-primary">
+      <select>
+        <option value="" selected disabled hidden>CPU Type</option>
+        <option>Intel Core i9-9900K</option>
+        <option>Intel Core i7-4770K</option>
+        <option>Intel Core i7-4790.</option>
+        <option>AMD Ryzen 7 3700X</option>
+        <option>AMD Ryzen 9 5900X</option>
+      </select>
+    </div>
+    <div class="select is-primary">
+      <select>
+        <option value="" selected disabled hidden>CPU Count</option>
+        <option>2</option>
+        <option>4</option>
+        <option>6</option>
+        <option>12</option>
+        <option>24</option>
+        <option>48</option>
+      </select>
+    </div>
+    <button class="button is-primary is-light">Check Availability</button>
+    <h3>Available Images</h3>
+    <p>The following images are available for the selected region</p>
+    <div class="columns">
+      <div *ngFor="let image of images" class="column">
+        <div class="card">
+          <div class="card-content">
+            <div class="content">
+              <ul>
+                <li>"offer": "CoreOS"</li>
+                <li>"publisher": "CoreOS"</li>
+                <li>"sku": "Stable"</li>
+                <li>"urn": "CoreOS:CoreOS:Stable:latest"</li>
+                <li>"urnAlias": "CoreOS"</li>
+                <li>"version": "latest</li>
+              </ul>
+            </div>
+          </div>
+          <footer class="card-footer">
+            <a href="#" (click)="selectedImage()" class="card-footer-item">Choose</a>
+          </footer>
+        </div>
+      </div>
+    </div>
+    <hr>
+    <button style="width: 100%;" class="button is-primary is-light">Create</button>
+  </div>
 </div>

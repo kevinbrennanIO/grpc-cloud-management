@@ -6,5 +6,10 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.scss']
 })
 export class AppComponent {
-  title = 'Cloud Management Environment';
+  title = 'Management Console';
+  images = ['','','','']
+
+  selectedImage() {
+    alert("Hello");
+  }
 }
