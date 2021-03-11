@@ -1,0 +1,26 @@
+syntax = "proto3";
+package com.kevinbrennan.grpc;
+
+message NameRequest {
+  string name = 1;
+}
+
+message ImageRequest {
+  bool imagesRequested = 1;
+}
+
+message NameResponse {
+  bool validNameChoice = 1;
+  string error = 2;
+}
+
+message ImageResponse {
+  string imageName = 1;
+}
+
+
+service ComputeService {
+  rpc validateName(NameRequest) returns (NameResponse);
+    rpc validateImage(ImageRequest) returns (stream ImageResponse);
+  //  rpc validateCapacity(NameRequest) returns (NameResponse);
+}
