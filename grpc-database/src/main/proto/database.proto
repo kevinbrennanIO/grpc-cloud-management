@@ -1,0 +1,64 @@
+syntax = "proto3";
+package com.kevinbrennan.grpc;
+import "errors.proto";
+
+// REQUESTS
+/*
+Service receives a request containing a region, which
+the service will return a list of databases currently
+running in that region. (SERVER STREAMING)
+*/
+message dbListRequest {
+  string region = 1;
+}
+
+/*
+Service receives a request to login to specified database
+with provided credentials. (UNARY)
+*/
+message dbAuthRequest {
+  string databaseName = 1;
+  string userName = 2;
+  string password = 3;
+}
+
+/*
+Service receives a payload of data to upload in chunks to
+the specified database in the request (BI-DIRECTIONAL STREAMING)
+*/
+message dbUploadRequest {
+  string databaseName = 1;
+  string databaseToken = 2;
+  string payloadChunk = 3;
+}
+
+
+// RESPONSES
+message dbListResponse {
+  string databaseName = 1;
+  string databaseLocation = 2;
+  int32 databaseSize = 3;
+  Code statusCode = 4;
+}
+
+message dbAuthResponse {
+  string databaseToken = 1;
+  Code statusCode = 2;
+}
+
+message dbUploadResponse {
+  Code statusCode = 1;
+}
+
+// SERVICE
+service DatabaseService {
+
+  // SERVER STREAMING
+  rpc ListDatabases(dbListRequest) returns (stream dbListResponse);
+
+  // UNARY
+  rpc DatabaseLogin(dbAuthRequest) returns (dbAuthResponse);
+
+  // BI-DIRECTIONAL STREAMING
+  rpc DatabaseUpload(stream dbUploadRequest) returns (stream dbUploadResponse);
+}
