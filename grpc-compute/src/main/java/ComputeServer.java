@@ -1,5 +1,3 @@
-package com.kevinbrennan.grpc;
-
 import io.grpc.*;
 import java.util.logging.Logger;
 

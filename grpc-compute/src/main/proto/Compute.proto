@@ -1,5 +1,4 @@
 syntax = "proto3";
-package com.kevinbrennan.grpc;
 
 // REQUESTS
 /*
@@ -33,27 +32,29 @@ message CapacityRequest {
 // RESPONSES
 message NameResponse {
   bool validNameChoice = 1;
-  string error = 2;
+  string responseMessage = 2;
+  int32 responseCode = 3;
 }
 
 message ImageResponse {
   string imageName = 1;
+  string responseMessage = 2;
+  int32 responseCode = 3;
 }
 
 message CapacityResponse {
   bool capacityAvailability = 1;
   int32 cpuCoresAvailable = 2;
+  string responseMessage = 3;
+  int32 responseCode = 4;
 }
 
 // SERVICE
 service ComputeService {
-
   // UNARY
   rpc validateName(NameRequest) returns (NameResponse);
-
   // SERVER STREAMING
   rpc retrieveImages(ImageRequest) returns (stream ImageResponse);
-
   // UNARY
   rpc validateCapacity(CapacityRequest) returns (CapacityResponse);
 }

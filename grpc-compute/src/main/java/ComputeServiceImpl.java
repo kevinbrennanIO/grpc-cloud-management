@@ -1,12 +1,4 @@
-package com.kevinbrennan.grpc;
-
 import io.grpc.stub.StreamObserver;
-
-import java.util.HashMap;
-import java.util.logging.Logger;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ComputeServiceImpl extends ComputeServiceGrpc.ComputeServiceImplBase {
 
@@ -22,12 +14,14 @@ public class ComputeServiceImpl extends ComputeServiceGrpc.ComputeServiceImplBas
         if (db.existingNames.contains(request.getName())) {
             response = Compute.NameResponse.newBuilder()
                     .setValidNameChoice(false)
-                    .setError("Error: " + request.getName() + " is already taken. Please choose a different name.")
+                    .setResponseMessage("Error: " + request.getName() + " is already taken. Please choose a different name.")
+                    .setResponseCode(6) // ALREADY_EXISTS
                     .build();
         } else {
             response = Compute.NameResponse.newBuilder()
                     .setValidNameChoice(true)
-                    .setError(request.getName() + " is available for selection.")
+                    .setResponseMessage(request.getName() + " is available for selection.")
+                    .setResponseCode(0) // OK
                     .build();
         }
 
@@ -42,17 +36,30 @@ public class ComputeServiceImpl extends ComputeServiceGrpc.ComputeServiceImplBas
     public void retrieveImages(Compute.ImageRequest request, StreamObserver<Compute.ImageResponse> responseObserver) {
 
         Compute.ImageResponse response;
+        String region = request.getRegionName();
 
-        // construct new Proto buffer object
-        for (String image : db.availableImages) {
+        if (db.regions.contains(region.toLowerCase())) {
+            // construct new Proto buffer object
+            for (String image : db.availableImages) {
+                response = Compute.ImageResponse.newBuilder()
+                        .setImageName(image)
+                        .setResponseMessage("No Errors")
+                        .setResponseCode(0) // OK
+                        .build();
+
+                // send single response back per iteration
+                responseObserver.onNext(response);
+            }
+        } else {
             response = Compute.ImageResponse.newBuilder()
-                    .setImageName(image)
+                    .setImageName("")
+                    .setResponseMessage("Invalid region specified in the request")
+                    .setResponseCode(3) // INVALID_ARGUMENT
                     .build();
 
             // send single response back per iteration
             responseObserver.onNext(response);
         }
-        // When you are done, you must call onCompleted.
         responseObserver.onCompleted();
     }
 
@@ -62,20 +69,32 @@ public class ComputeServiceImpl extends ComputeServiceGrpc.ComputeServiceImplBas
         Compute.CapacityResponse response;
 
         // compute available cores in specified region
+        boolean coresAvailable = false;
         String region = request.getRegion();
         int requestedCpuCores = request.getCpuCount();
         int availableCpuCores = getRegionalCpuCores(region);
-        boolean boolAvailable = !(availableCpuCores > 0);
+        if (availableCpuCores > requestedCpuCores) {
+            coresAvailable = true;
+        }
 
-        response = Compute.CapacityResponse.newBuilder()
-                .setCapacityAvailability(boolAvailable)
-                .setCpuCoresAvailable(availableCpuCores)
-                .build();
+        if (coresAvailable) {
+            response = Compute.CapacityResponse.newBuilder()
+                    .setCapacityAvailability(coresAvailable)
+                    .setCpuCoresAvailable(availableCpuCores)
+                    .setResponseMessage("Region contains enough CPU cores to satisfy the request.")
+                    .setResponseCode(0) // OK
+                    .build();
 
-        // send single response back per iteration
+        } else {
+            response = Compute.CapacityResponse.newBuilder()
+                    .setCapacityAvailability(coresAvailable)
+                    .setCpuCoresAvailable(availableCpuCores)
+                    .setResponseMessage("Not enough CPU cores available to satisfy the request.")
+                    .setResponseCode(8) // RESOURCE_EXHAUSTED
+                    .build();
+
+        }
         responseObserver.onNext(response);
-
-        // When you are done, you must call onCompleted.
         responseObserver.onCompleted();
     }
 
