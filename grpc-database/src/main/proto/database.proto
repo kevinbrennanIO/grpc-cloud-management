@@ -1,6 +1,4 @@
 syntax = "proto3";
-package com.kevinbrennan.grpc;
-import "errors.proto";
 
 // REQUESTS
 /*
@@ -8,7 +6,7 @@ Service receives a request containing a region, which
 the service will return a list of databases currently
 running in that region. (SERVER STREAMING)
 */
-message dbListRequest {
+message DbListRequest {
   string region = 1;
 }
 
@@ -16,7 +14,7 @@ message dbListRequest {
 Service receives a request to login to specified database
 with provided credentials. (UNARY)
 */
-message dbAuthRequest {
+message DbAuthRequest {
   string databaseName = 1;
   string userName = 2;
   string password = 3;
@@ -24,9 +22,9 @@ message dbAuthRequest {
 
 /*
 Service receives a payload of data to upload in chunks to
-the specified database in the request (BI-DIRECTIONAL STREAMING)
+the specified database in the request (CLIENT STREAMING)
 */
-message dbUploadRequest {
+message DbUploadRequest {
   string databaseName = 1;
   string databaseToken = 2;
   string payloadChunk = 3;
@@ -34,31 +32,29 @@ message dbUploadRequest {
 
 
 // RESPONSES
-message dbListResponse {
+message DbListResponse {
   string databaseName = 1;
-  string databaseLocation = 2;
-  int32 databaseSize = 3;
-  Code statusCode = 4;
+  string responseMessage = 4;
+  int32 responseCode = 5;
 }
 
-message dbAuthResponse {
+message DbAuthResponse {
   string databaseToken = 1;
-  Code statusCode = 2;
+  string responseMessage = 2;
+  int32 responseCode = 3;
 }
 
-message dbUploadResponse {
-  Code statusCode = 1;
+message DbUploadResponse {
+  string responseMessage = 1;
+  int32 responseCode = 2;
 }
 
 // SERVICE
 service DatabaseService {
-
   // SERVER STREAMING
-  rpc ListDatabases(dbListRequest) returns (stream dbListResponse);
-
+  rpc listDatabases(DbListRequest) returns (stream DbListResponse);
   // UNARY
-  rpc DatabaseLogin(dbAuthRequest) returns (dbAuthResponse);
-
-  // BI-DIRECTIONAL STREAMING
-  rpc DatabaseUpload(stream dbUploadRequest) returns (stream dbUploadResponse);
+  rpc databaseLogin(DbAuthRequest) returns (DbAuthResponse);
+  // CLIENT STREAMING
+  rpc databaseUpload(stream DbUploadRequest) returns (DbUploadResponse);
 }
