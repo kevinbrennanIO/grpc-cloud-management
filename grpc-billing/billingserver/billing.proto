@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package billingserver;
+option go_package = "billingserver";
+
+message CostUsageRequest {
+  string subscriptionID = 1;
+}
+
+message CostUsageResponse {
+  string subscriptionID = 1;
+  string accumulatedCost = 2;
+}
+
+service Billing {
+  rpc subscriptionCost(stream CostUsageRequest) returns(stream CostUsageResponse) {}
+}
