@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="../static/styles/main.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma-rtl.min.css">
+    <title>Compute Service</title>
+</head>
+<body>
+<div class="container">
+    <!-- NAVIGATION -->
+    <nav class="navbar is-dark" role="navigation" aria-label="main navigation">
+        <div class="navbar-brand">
+            <a class="navbar-item" href="compute.html">
+                <h3><strong>gRPC Cloud Management</strong></h3>
+            </a>
+        </div>
+        <div id="navbarBasicExample" class="navbar-menu">
+            <div class="navbar-start">
+                <a class="navbar-item" href="compute.html">Compute</a>
+                <a class="navbar-item" href="database.html">Database</a>
+                <a class="navbar-item" href="billing.html">Billing</a>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MAIN -->
+    <br>
+    <p><strong>Compute Portal</strong></p>
+    <hr>
+    <br>
+    <div class="main-cols">
+        <div class="columns">
+            <div class="column">
+                <div class="cols">
+
+                    <div class="content">
+                        <p>Choose VM Name (Unary)</p>
+                        <form method="GET">
+                            <input type="text" placeholder="Choose name" name="selected_name">
+                            <input type="submit" value="Check Availability">
+                        </form>
+                    </div>
+                    <hr>
+                    <div class="content">
+                        <p>List images per region: (Server Stream)</p>
+                        <form method="GET">
+                            <label for="cars">Choose a region</label>
+                            <select id="region" name="selected_region">
+                                <option value="centralindia">Central India</option>
+                                <option value="japaneast">Japan East</option>
+                                <option value="ukwest">UK West</option>
+                            </select>
+                            <input type="submit" value="Get Images">
+                        </form>
+                    </div>
+                    <hr>
+                    <div class="content">
+                        <p>CPU Availability (Unary)</p>
+                        <form method="GET">
+                            <label for="region">Choose a region</label>
+                            <select id="region" name="region">
+                                <option value="centralindia">Central India</option>
+                                <option value="japaneast">Japan East</option>
+                                <option value="ukwest">UK West</option>
+                            </select>
+                            <label for="cpu_count">Specify required CPU's</label>
+                            <select id="cpu_count" name="cpu_count">
+                                <option value="32">32</option>
+                                <option value="64">64</option>
+                                <option value="128">128</option>
+                                <option value="258">256</option>
+                                <option value="512">512</option>
+                            </select>
+                            <input type="submit" value="Verify Capacity">
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <div class="column">
+                <div class="cols">
+                    <div>
+                        {% for out in output %}
+                            <p><strong>Message</strong></p>
+                            <p style="border: 1px solid gray; padding: 10px">{{ out }}</p>
+                            <br>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+</body>
+</html>
