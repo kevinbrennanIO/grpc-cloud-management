@@ -1,0 +1,60 @@
+syntax = "proto3";
+
+// REQUESTS
+/*
+Service receives a request containing VM name, which the
+service will then validate for uniqueness
+*/
+message NameRequest {
+  string name = 1;
+}
+
+/*
+Service receives a request for the available images in the
+specified region. VM creation is available if the user chooses
+from one of the supporting images
+*/
+message ImageRequest {
+  string regionName = 1;
+}
+
+/*
+Service receives a CPU count request for the specified region
+as per the request. VM creation is available if specified region
+contains enough CPU cores to support the request.
+*/
+message CapacityRequest {
+  string region = 1;
+  int32 cpuCount = 2;
+}
+
+
+// RESPONSES
+message NameResponse {
+  bool validNameChoice = 1;
+  string responseMessage = 2;
+  int32 responseCode = 3;
+}
+
+message ImageResponse {
+  string imageName = 1;
+  string responseMessage = 2;
+  int32 responseCode = 3;
+}
+
+message CapacityResponse {
+  bool capacityAvailability = 1;
+  int32 cpuCoresAvailable = 2;
+  string responseMessage = 3;
+  int32 responseCode = 4;
+}
+
+// SERVICE
+service ComputeService {
+  // UNARY
+  rpc validateName(NameRequest) returns (NameResponse);
+  // SERVER STREAMING
+  rpc retrieveImages(ImageRequest) returns (stream ImageResponse);
+  // UNARY
+  rpc validateCapacity(CapacityRequest) returns (CapacityResponse);
+}

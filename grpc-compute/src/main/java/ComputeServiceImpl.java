@@ -77,9 +77,10 @@ public class ComputeServiceImpl extends ComputeServiceGrpc.ComputeServiceImplBas
             coresAvailable = true;
         }
 
+        // capacity validation logic
         if (coresAvailable) {
             response = Compute.CapacityResponse.newBuilder()
-                    .setCapacityAvailability(coresAvailable)
+                    .setCapacityAvailability(true)
                     .setCpuCoresAvailable(availableCpuCores)
                     .setResponseMessage("Region contains enough CPU cores to satisfy the request.")
                     .setResponseCode(0) // OK
@@ -87,7 +88,7 @@ public class ComputeServiceImpl extends ComputeServiceGrpc.ComputeServiceImplBas
 
         } else {
             response = Compute.CapacityResponse.newBuilder()
-                    .setCapacityAvailability(coresAvailable)
+                    .setCapacityAvailability(false)
                     .setCpuCoresAvailable(availableCpuCores)
                     .setResponseMessage("Not enough CPU cores available to satisfy the request.")
                     .setResponseCode(8) // RESOURCE_EXHAUSTED
@@ -98,6 +99,7 @@ public class ComputeServiceImpl extends ComputeServiceGrpc.ComputeServiceImplBas
         responseObserver.onCompleted();
     }
 
+    // helper function
     public int getRegionalCpuCores(String region) {
         String r = region.toLowerCase();
         if (r.contains("uk")) {
