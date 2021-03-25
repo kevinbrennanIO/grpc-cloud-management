@@ -2,8 +2,8 @@
 proto:
 	@echo "Compiling proto files"
 	python -m grpc_tools.protoc \
-	-I ./protobufs --python_out=./clients \
-	--grpc_python_out=./clients \
+	-I ./protobufs --python_out=./gui \
+	--grpc_python_out=./gui \
 	./protobufs/*.proto
 
 # clean up generated proto files

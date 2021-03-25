@@ -72,7 +72,7 @@ def database():
     resp = []
 
     if request.url.find('region') != -1:
-        list_request = DbListRequest(name=request.args.get('region'))
+        list_request = DbListRequest(region=request.args.get('region'))
         list_response = database_client.listDatabases(list_request)
         respy = list_response
         for r in respy:
@@ -87,7 +87,7 @@ def database():
         )
         auth_response = database_client.databaseLogin(auth_request)
         resp.append("Database Token: %s :: Response Message: %s :: Response Code: %s" % (
-                auth_response.databaseToken, auth_request.responseMessage, auth_response.responseCode))
+                auth_response.databaseToken, auth_response.responseMessage, auth_response.responseCode))
 
     elif request.url.find('token') != -1:
         upload_request = DbUploadRequest(

@@ -64,11 +64,11 @@ func newServer() *billingserverServer {
 func main() {
 
 	//initialize tcp listener that will server the gRPC server
-	lis, err := net.Listen("tcp", "localhost:5000")
+	lis, err := net.Listen("tcp", "localhost:2412")
 	if err != nil {
-		log.Fatalf("failed to listen on 5000: %v", err)
+		log.Fatalf("failed to listen on 2412: %v", err)
 	}
-	log.Println("Server running OK on port 5000")
+	log.Println("Server running OK on port 2412")
 
 	// instantiate a new gRPC server
 	grpcServer := grpc.NewServer()

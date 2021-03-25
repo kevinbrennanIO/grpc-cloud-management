@@ -3,7 +3,7 @@
 <head>
     <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
-    <link rel="stylesheet" type= "text/css" href="../static/styles/main.css">
+    <link rel="stylesheet" type="text/css" href="../static/styles/main.css">
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma-rtl.min.css">
     <title>Database Service</title>
 </head>
@@ -30,6 +30,61 @@
     <p><strong>Database Portal</strong></p>
     <hr>
     <br>
+    <div class="main-cols">
+        <div class="columns">
+            <div class="column">
+                <div class="cols">
+
+                    <div class="content">
+                        <p>List databases per region: (Server Stream)</p>
+                        <form method="GET">
+                            <label for="cars">Choose a region</label>
+                            <select id="region" name="region">
+                                <option value="centralindia">Central India</option>
+                                <option value="japaneast">Japan East</option>
+                                <option value="ukwest">UK West</option>
+                            </select>
+                            <input type="submit" value="List Databases">
+                        </form>
+                    </div>
+                    <hr>
+
+                    <div class="content">
+                        <p>Database Login: (Unary)</p>
+                        <form method="GET">
+                            <input type="text" placeholder="Username" name="userName">
+                            <input type="text" placeholder="Password" name="password">
+                            <input type="submit" value="Login">
+                        </form>
+                    </div>
+                    <hr>
+
+                    <div class="content">
+                        <p>Database Upload: (Client Stream)</p>
+                        <form method="GET">
+                            <input type="text" placeholder="Database Name" name="databaseName">
+                            <input type="text" placeholder="Token" name="databaseToken">
+                            <input type="text" placeholder="Data (string)" name="payloadChunk">
+                            <input type="submit" value="Upload">
+                        </form>
+                    </div>
+                    <hr>
+
+                </div>
+            </div>
+            <div class="column">
+                <div class="cols">
+                    <div>
+                        {% for out in output %}
+                            <p><strong>Message</strong></p>
+                            <p style="border: 1px solid gray; padding: 10px">{{ out }}</p>
+                            <br>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
 </div>
 </body>
 </html>
